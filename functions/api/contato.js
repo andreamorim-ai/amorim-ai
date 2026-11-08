@@ -1,8 +1,6 @@
 // Cloudflare Pages Function: POST /api/contato
-// Envia o contato por e-mail para andre@amorim.ai pela Brevo e, se a pessoa marcou,
-// inscreve na newsletter.
-// Variáveis: BREVO_API_KEY, BREVO_LIST_ID, EMAIL_DESTINO (andre@amorim.ai), EMAIL_REMETENTE (ex.: site@amorim.ai)
-import { inscrever } from './newsletter.js';
+// Envia o contato por e-mail para EMAIL_DESTINO e, se a pessoa marcou, inscreve na newsletter.
+import { enviarEmail, inscrever } from './_email.js';
 
 const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -17,17 +15,7 @@ export async function onRequestPost({ request, env }) {
 <b>WhatsApp:</b> ${esc(d.whatsapp)}<br><b>Interesse:</b> ${esc(d.assunto)}<br><b>Newsletter:</b> ${d.newsletter ? 'sim' : 'não'}</p>
 <p><b>Mensagem:</b><br>${esc(d.mensagem).replace(/\n/g, '<br>')}</p>`;
 
-  const r = await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: { 'api-key': env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
-    body: JSON.stringify({
-      sender: { name: 'Site amorim.ai', email: env.EMAIL_REMETENTE },
-      to: [{ email: env.EMAIL_DESTINO, name: 'André Amorim' }],
-      replyTo: { email: d.email, name: d.nome },
-      subject: `Contato pelo site: ${d.nome} (${d.assunto})`,
-      htmlContent: html,
-    }),
-  });
+  const ok = await enviarEmail(env, { assunto: `Contato pelo site: ${d.nome} (${d.assunto})`, html, responderPara: d.email }).catch(() => false);
   if (d.newsletter) await inscrever(env, d.email, 'contato', d.nome).catch(() => {});
-  return new Response(r.ok ? 'ok' : 'erro', { status: r.ok ? 200 : 502 });
+  return new Response(ok ? 'ok' : 'erro', { status: ok ? 200 : 502 });
 }
