@@ -144,3 +144,28 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
 .prose ul,.prose ol{padding-left:22px}
 .prose blockquote{margin:24px 0;padding-left:20px;border-left:2px solid var(--accent);color:var(--muted)}
 .ok.err{color:#B3261E}
+
+/* celular: página mais curta e enxuta */
+@media (max-width:960px){
+  body{font-size:16px;line-height:1.65}
+  .lead{font-size:17px}
+  h2{font-size:24px;margin-bottom:12px}
+  .titleband h1{font-size:30px}
+  .crumb{font-size:12.5px;margin-bottom:14px}
+  #mentoria figure img{max-height:420px!important;aspect-ratio:4/5;object-position:50% 15%!important}
+  .mentor figure{max-width:200px}
+  .actions .btn{flex:1 1 100%}
+  .side>div:first-child{display:none}
+  .side{gap:20px;border-top:1px solid var(--line);padding-top:32px}
+  .side .btn{width:100%}
+  .follow{padding:20px}
+  .faq summary{font-size:16px}
+  dl.how div{padding:12px 0}
+  .wa{right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .wa .dot{width:52px;height:52px}
+}
+@media (max-width:420px){
+  .pair2{grid-template-columns:1fr}
+  .pair2 img{aspect-ratio:4/3}
+  footer .wrap{flex-direction:column;gap:10px}
+}
