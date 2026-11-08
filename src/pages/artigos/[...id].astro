@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE, mes } from '../../site.js';
+
+export async function getStaticPaths() {
+  const artigos = await getCollection('artigos', (a) => !a.data.rascunho);
+  return artigos.map((a) => ({ params: { id: a.id }, props: { artigo: a } }));
+}
+const { artigo } = Astro.props;
+const { Content } = await render(artigo);
+const temTexto = (artigo.body || '').trim().length > 0;
+---
+<Base titulo={`${artigo.data.titulo} · André Amorim`} descricao={artigo.data.resumo} tipo="article">
+  <div class="titleband">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Trilha"><a href="/">Início</a><span aria-hidden="true">›</span><a href="/artigos">Artigos</a><span aria-hidden="true">›</span><span class="here">{artigo.data.tipo}</span></nav>
+      <h1>{artigo.data.titulo}</h1>
+    </div>
+  </div>
+  <div class="wrap layout">
+    <main class="main">
+      <article class="article">
+        <p class="meta"><span>{artigo.data.tipo}</span><span style="color:var(--muted)">{mes(artigo.data.data)}</span></p>
+        <p class="lead">{artigo.data.resumo}</p>
+        {temTexto && <div class="prose" style="margin-top:28px"><Content /></div>}
+        <div class="actions">
+          {artigo.data.linkedin && <a class="btn" href={artigo.data.linkedin} target="_blank" rel="noopener">{temTexto ? 'Comentar no LinkedIn' : 'Ler no LinkedIn'}</a>}
+          <a class="btn line" href="/artigos">Ver todos os artigos</a>
+        </div>
+      </article>
+      <section class="closing">
+        <h2>Quer levar isso para a sua empresa?</h2>
+        <p class="muted">Converse comigo sobre mentoria executiva ou uma palestra para o seu time de liderança.</p>
+        <div class="actions"><a class="btn" href="/#contato">Agendar conversa</a><a class="btn line" href={SITE.linkedinPessoal} target="_blank" rel="noopener">Seguir no LinkedIn</a></div>
+      </section>
+    </main>
+    <Sidebar />
+  </div>
+</Base>

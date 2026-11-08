@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro';
+import Sidebar from '../components/Sidebar.astro';
+import ListaArtigos from '../components/ListaArtigos.astro';
+import { getCollection } from 'astro:content';
+import { SITE, wa } from '../site.js';
+const recentes = (await getCollection('artigos', (a) => !a.data.rascunho))
+  .sort((x, y) => y.data.data.valueOf() - x.data.data.valueOf())
+  .slice(0, 4);
+---
+<Base titulo="André Amorim · Mentoria executiva em IA" descricao="Mentoria individual em IA para CEOs, conselheiros e diretores. Conduzida por André Amorim, Diretor de IA da Assespro e ex-CEO da Nextios (grupo LWSA, B3).">
+<div class="titleband" id="topo">
+  <div class="wrap">
+    <nav class="crumb" aria-label="Trilha"><a href="/">Início</a><span aria-hidden="true">›</span><a href="/#mentoria">Serviços</a><span aria-hidden="true">›</span><span class="here">Mentoria executiva em IA</span></nav>
+    <h1>Mentoria executiva em IA para líderes seniores</h1>
+  </div>
+</div>
+
+<div class="wrap layout">
+  <main class="main">
+    <section id="mentoria">
+      <figure><img src="/img/andre-hero.jpg" alt="André Amorim, de blazer azul-marinho e braços cruzados, em fundo azul escuro" width="1100" height="1353" style="max-height:620px;object-fit:cover;object-position:50% 20%"></figure>
+      <div style="margin-top:36px">
+        <p class="lead">Mentoria individual em IA para executivos que querem um espaço confidencial e focado para pensar tecnologia, estratégia e liderança. Conduzida pessoalmente por André Amorim, Diretor de IA da Assespro e ex-CEO da Nextios, empresa do grupo LWSA, listado na B3.</p>
+        <p class="muted">O formato padrão são seis sessões de uma hora, presenciais e online, montadas em torno das suas perguntas reais. Todas as sessões são em português.</p>
+        <div class="actions"><a class="btn" href="#contato">Marcar uma conversa inicial</a><a class="btn line" href={wa("Olá André, quero saber mais sobre a mentoria executiva em IA.")} target="_blank" rel="noopener">Falar no WhatsApp</a></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Como é a mentoria executiva em IA</h2>
+      <p>Isto não é um treinamento genérico de IA. É uma relação de mentoria com alguém que já foi CEO em empresa de capital aberto e passou a carreira entre telecom, data center, cloud e IA, sempre na ponte entre o técnico e o executivo.</p>
+      <p>As sessões giram em torno do que está na sua mesa agora: uma decisão de compra, uma pauta de conselho, uma conversa difícil com o CTO, uma escolha de investimento ou uma preocupação que você ainda não quer dividir com o time. Cada sessão é confidencial, e você sai com um próximo passo concreto para testar até o encontro seguinte.</p>
+    </section>
+
+    <section>
+      <h2>O que você leva da mentoria</h2>
+      <ul class="clean">
+        <li>Uma visão própria de onde a IA ajuda e onde ela adiciona risco, no seu cargo e na sua empresa.</li>
+        <li>Linguagem para questionar fornecedores, consultores e o time interno com segurança.</li>
+        <li>Decisões tomadas sobre perguntas reais, não sobre estudos de caso hipotéticos.</li>
+        <li>Um olhar de fora, sem pressão de hierarquia, focado no seu sucesso.</li>
+        <li>Um espaço confidencial para pensar as perguntas mais difíceis sobre IA.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Para quem é</h2>
+      <p>Para executivos seniores de empresas de qualquer porte e setor, que conduzem a mentoria em português, no Brasil ou no exterior: presidentes de conselho, CEOs, diretores executivos, conselheiros, CFOs, COOs, CTOs e CIOs, líderes do jurídico e de RH e demais integrantes da alta gestão.</p>
+    </section>
+
+    <section>
+      <h2>Como funciona</h2>
+      <dl class="how">
+        <div><dt>Formato</dt><dd>Somente individual, um a um.</dd></div>
+        <div><dt>Duração</dt><dd>Seis sessões de uma hora, normalmente ao longo de três a seis meses.</dd></div>
+        <div><dt>Modalidade</dt><dd>Sessões presenciais e online, combinadas no início. Presencial em São Paulo e Recife.</dd></div>
+        <div><dt>Idioma</dt><dd>Português do Brasil.</dd></div>
+        <div><dt>Confidencialidade</dt><dd>Nada do que é conversado sai da sala.</dd></div>
+        <div><dt>Investimento</dt><dd>Sob consulta. Peça uma proposta pelo formulário ou pelo WhatsApp.</dd></div>
+      </dl>
+    </section>
+
+    <section>
+      <h2>Seu mentor</h2>
+      <div class="mentor">
+        <figure><img src="/img/andre-mentor.jpg" alt="Retrato de André Amorim sorrindo, de blazer azul e camiseta branca" width="900" height="1155" loading="lazy"></figure>
+        <div>
+          <p>André Amorim foi CEO da Nextios, consultoria AWS do grupo LWSA, companhia listada na B3. Respondeu por P&amp;L, estratégia e relação com a governança corporativa de uma empresa de capital aberto.</p>
+          <p>Há dez anos é Vice-Presidente de Comunicação e Marketing da Assespro SP, a regional paulista da associação das empresas de tecnologia da informação, e acumula o cargo de Diretor de IA da Assespro. Acompanha de perto como as empresas brasileiras de tecnologia estão adotando IA e o que funciona na prática.</p>
+          <p>Hoje é diretor de uma unidade de negócios de Cloud, Data e IA em uma parceira SAP e AWS com operação no Brasil, nos Estados Unidos e em Portugal, e fundou a Amorim.AI para ajudar executivos a liderar a transformação de IA na carreira e nos negócios. A carreira passa por telecom, data center, cloud e IA, sempre traduzindo tecnologia em decisão de negócio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="palestras">
+      <h2>Palestras: IA aplicada ao negócio</h2>
+      <p>André também fala em eventos corporativos, convenções, conselhos e encontros de liderança. Conteúdo direto, sem jargão e sem hype, pensado para quem decide.</p>
+      <figure style="margin-top:28px"><img src="/img/palco-wide.jpg" alt="André Amorim no palco, apresentando a evolução dos modelos de IA, ao lado de um painel com sua foto" width="1600" height="800" loading="lazy"></figure>
+      <div class="pair2">
+        <figure><img src="/img/palco-close.jpg" alt="André Amorim falando ao microfone durante palestra" width="1000" height="1212" loading="lazy"></figure>
+        <figure><img src="/img/palco-plateia.jpg" alt="André Amorim no palco diante da plateia, apontando para a tela com a cena do Homem de Ferro" width="1000" height="1251" loading="lazy"></figure>
+      </div>
+      <div class="talks" style="margin-top:28px">
+        <div><h3>IA na pauta do conselho</h3><p class="muted">O que o board precisa perguntar sobre IA: estratégia, risco, governança e retorno sobre o investimento.</p></div>
+        <div><h3>IA no resultado da empresa</h3><p class="muted">Como transformar iniciativas de IA em receita, margem e produtividade que aparecem no balanço.</p></div>
+        <div><h3>O executivo aumentado</h3><p class="muted">O que muda na rotina de quem lidera quando a IA vira parte do trabalho diário.</p></div>
+        <div><h3>Do piloto à escala</h3><p class="muted">Por que a maioria dos projetos de IA para na prova de conceito e como sair dela.</p></div>
+      </div>
+      <div class="actions"><a class="btn line" href="#contato" data-topic="palestra">Convidar para palestrar</a></div>
+    </section>
+
+    <section id="artigos">
+      <h2>Artigos</h2>
+      <p class="muted">O que eu tenho escrito sobre IA, estratégia e governança. Cada artigo publicado aqui sai também no meu LinkedIn e na página da Mentoria Amorim.AI.</p>
+      <ListaArtigos itens={recentes} />
+      <div class="follow">
+        <p><strong style="color:var(--ink)">Acompanhe no LinkedIn</strong><br><span class="muted">Novos artigos saem primeiro aqui e no mesmo dia nos dois perfis.</span></p>
+        <div class="actions" style="margin-top:0"><a class="btn" href="/artigos">Todos os artigos</a><a class="btn line" href={SITE.linkedinPessoal} target="_blank" rel="noopener">André Amorim</a><a class="btn line" href={SITE.linkedinEmpresa} target="_blank" rel="noopener">Mentoria Amorim.AI</a></div>
+      </div>
+    </section>
+
+    <section id="duvidas">
+      <h2>Perguntas frequentes</h2>
+      <div class="faq">
+        <details open><summary>Qual a diferença entre mentoria e treinamento em IA?</summary><p>Treinamento ensina conhecimento geral para um grupo. A mentoria é individual e foca nas suas decisões específicas, com sigilo. Muitos líderes usam os dois: treinamento de letramento em IA para o time e mentoria para si mesmos.</p></details>
+        <details><summary>Quanto tempo dura a mentoria?</summary><p>São seis sessões de uma hora, normalmente distribuídas ao longo de três a seis meses, para dar tempo de aplicar o que foi conversado.</p></details>
+        <details><summary>As sessões podem ser online?</summary><p>Sim. O formato padrão mistura sessões presenciais e online, mas a mentoria também pode ser totalmente remota.</p></details>
+        <details><summary>Você entende de governança e estratégia, ou só de tecnologia?</summary><p>Dos dois. Fui CEO da Nextios, empresa do grupo LWSA, companhia listada na B3, respondendo por resultado, estratégia e governança corporativa, e há dez anos sou Vice-Presidente de Comunicação e Marketing da Assespro SP, além de Diretor de IA da Assespro. Por isso a mentoria trata IA como decisão de negócio, não como assunto técnico.</p></details>
+        <details><summary>Quem conduz as sessões?</summary><p>Todas as sessões são conduzidas pessoalmente por André Amorim.</p></details>
+        <details><summary>Você atende executivos fora do Brasil?</summary><p>Sim, desde que a mentoria seja em português. Atendo apenas em português do Brasil, e quem está fora do país faz as sessões online.</p></details>
+        <details><summary>Como faço para começar?</summary><p>Chame no WhatsApp ou use o formulário abaixo. Marcamos uma conversa curta, sem compromisso, para ver se a mentoria faz sentido para você.</p></details>
+      </div>
+    </section>
+
+    <section class="closing">
+      <h2>Pronto para pensar IA com mais clareza?</h2>
+      <p class="muted">Chame no WhatsApp ou peça uma conversa inicial. Respondo pessoalmente.</p>
+      <div class="actions"><a class="btn" href={wa("")} target="_blank" rel="noopener">Falar no WhatsApp</a><a class="btn line" href="#contato">Enviar mensagem</a></div>
+    </section>
+
+    <section id="contato">
+      <h2>Contato</h2>
+      <form data-api="/api/contato">
+        <div class="row2">
+          <label for="cNome">Nome<input id="cNome" name="nome" required placeholder="Seu nome"></label>
+          <label for="cCargo">Cargo e empresa<input id="cCargo" name="cargo" placeholder="CEO, Empresa X"></label>
+        </div>
+        <div class="row2">
+          <label for="cEmail">E-mail<input id="cEmail" name="email" type="email" required placeholder="voce@empresa.com.br"></label>
+          <label for="cFone">WhatsApp<input id="cFone" name="whatsapp" type="tel" placeholder="+55 11 90000-0000"></label>
+        </div>
+        <label for="cAssunto">Interesse
+          <select id="cAssunto" name="assunto">
+            <option value="mentoria">Mentoria executiva em IA</option>
+            <option value="palestra">Palestra</option>
+            <option value="consultoria">Consultoria para a empresa</option>
+            <option value="outro">Outro assunto</option>
+          </select>
+        </label>
+        <label for="cMsg">Mensagem<textarea id="cMsg" name="mensagem" placeholder="O que você quer resolver com IA?"></textarea></label>
+        <label style="font-weight:400;display:flex;gap:10px;align-items:flex-start"><input type="checkbox" name="newsletter" value="sim" style="width:auto;margin-top:6px"> Quero receber a newsletter mensal</label>
+        <input type="text" name="site" tabindex="-1" autocomplete="off" hidden>
+        <button class="btn" type="submit" style="justify-self:start">Enviar mensagem</button>
+        <p class="ok" data-ok hidden>Mensagem recebida. Respondo pessoalmente em até um dia útil.</p>
+        <p class="ok err" data-err hidden>Não consegui enviar agora. Chame no WhatsApp ou escreva para andre@amorim.ai.</p>
+      </form>
+    </section>
+  </main>
+
+  <Sidebar />
+</div>
+</Base>

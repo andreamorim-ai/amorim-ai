@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import ListaArtigos from '../../components/ListaArtigos.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../../site.js';
+const todos = (await getCollection('artigos', (a) => !a.data.rascunho))
+  .sort((x, y) => y.data.data.valueOf() - x.data.data.valueOf());
+---
+<Base titulo="Artigos · André Amorim" descricao="Artigos e posts de André Amorim sobre IA, estratégia e governança para executivos.">
+  <div class="titleband">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Trilha"><a href="/">Início</a><span aria-hidden="true">›</span><span class="here">Artigos</span></nav>
+      <h1>Artigos</h1>
+    </div>
+  </div>
+  <div class="wrap layout">
+    <main class="main">
+      <section>
+        <p class="lead">IA, estratégia e governança para quem decide. Tudo o que publico aqui sai também no LinkedIn.</p>
+        <ListaArtigos itens={todos} />
+        <div class="follow">
+          <p><strong style="color:var(--ink)">Acompanhe no LinkedIn</strong><br><span class="muted">Novos artigos saem no mesmo dia nos dois perfis.</span></p>
+          <div class="actions" style="margin-top:0"><a class="btn line" href={SITE.linkedinPessoal} target="_blank" rel="noopener">André Amorim</a><a class="btn line" href={SITE.linkedinEmpresa} target="_blank" rel="noopener">Mentoria Amorim.AI</a></div>
+        </div>
+      </section>
+    </main>
+    <Sidebar />
+  </div>
+</Base>

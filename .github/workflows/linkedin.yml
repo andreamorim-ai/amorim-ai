@@ -1,0 +1,40 @@
+name: Artigo novo no LinkedIn
+
+# Roda quando um artigo novo entra na pasta de artigos.
+on:
+  push:
+    branches: [main]
+    paths: ['src/content/artigos/**.md']
+
+jobs:
+  linkedin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Encontrar artigos novos ou que deixaram de ser rascunho
+        id: novos
+        run: |
+          novos=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD -- 'src/content/artigos/*.md' | while read f; do
+            if git show HEAD~1:"$f" >/dev/null 2>&1; then
+              grep -q '^rascunho: true' <(git show HEAD~1:"$f") && ! grep -q '^rascunho: true' "$f" && echo "$f"
+            else
+              echo "$f"
+            fi
+          done | tr '\n' ' ')
+          echo "arquivos=$novos" >> "$GITHUB_OUTPUT"
+      - name: Esperar o site publicar (Cloudflare)
+        if: steps.novos.outputs.arquivos != ''
+        run: sleep 120
+      - name: Criar posts no Typefully
+        if: steps.novos.outputs.arquivos != ''
+        env:
+          TYPEFULLY_API_KEY: ${{ secrets.TYPEFULLY_API_KEY }}
+          TYPEFULLY_SOCIAL_SET: ${{ secrets.TYPEFULLY_SOCIAL_SET }}
+          TYPEFULLY_SOCIAL_SET_EMPRESA: ${{ secrets.TYPEFULLY_SOCIAL_SET_EMPRESA }}
+          TYPEFULLY_PUBLISH_AT: ${{ vars.TYPEFULLY_PUBLISH_AT }}
+        run: node scripts/publicar-linkedin.mjs ${{ steps.novos.outputs.arquivos }}

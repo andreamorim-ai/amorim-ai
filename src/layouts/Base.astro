@@ -1,0 +1,99 @@
+---
+import '../styles/global.css';
+import { SITE, wa } from '../site.js';
+interface Props { titulo: string; descricao: string; imagem?: string; tipo?: string }
+const { titulo, descricao, imagem = '/img/andre-hero.jpg', tipo = 'website' } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site);
+const img = new URL(imagem, Astro.site);
+const home = Astro.url.pathname === '/';
+const ancora = (id: string) => (home ? `#${id}` : `/#${id}`);
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{titulo}</title>
+  <meta name="description" content={descricao}>
+  <link rel="canonical" href={url}>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="application/rss+xml" title="Artigos de André Amorim" href="/rss.xml">
+  <meta property="og:type" content={tipo}>
+  <meta property="og:title" content={titulo}>
+  <meta property="og:description" content={descricao}>
+  <meta property="og:url" content={url}>
+  <meta property="og:image" content={img}>
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;800&family=Montserrat:wght@300;400;500;600&family=Open+Sans:wght@400;600&display=swap">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="André Amorim.AI, início"><span class="s">André</span><span class="t">Amorim<span class="ai">.AI</span></span></a>
+    <details class="menu"><summary aria-label="Abrir menu"><span></span></summary>
+      <ul>
+        <li><a href={ancora('mentoria')}>Mentoria</a></li>
+        <li><a href={ancora('palestras')}>Palestras</a></li>
+        <li><a href="/artigos">Artigos</a></li>
+        <li><a href={ancora('duvidas')}>Dúvidas</a></li>
+        <li><a href={ancora('contato')}>Contato</a></li>
+      </ul>
+    </details>
+    <ul>
+      <li><a href={ancora('mentoria')}>Mentoria</a></li>
+      <li><a href={ancora('palestras')}>Palestras</a></li>
+      <li><a href="/artigos">Artigos</a></li>
+      <li><a href={ancora('duvidas')}>Dúvidas</a></li>
+      <li><a href={ancora('contato')}>Contato</a></li>
+    </ul>
+  </div>
+</header>
+
+<slot />
+
+<footer>
+  <div class="wrap">
+    <span>© {new Date().getFullYear()} Amorim.AI Consultoria LTDA. Todos os direitos reservados.</span>
+    <span class="links"><a href="/privacidade">Política de privacidade</a><a href="/rss.xml">RSS</a><a href={`mailto:${SITE.email}`}>{SITE.email}</a></span>
+  </div>
+</footer>
+
+<a class="wa" href={wa('Olá André, vim pelo site amorim.ai.')} target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <span class="bubble">Fale comigo no WhatsApp</span>
+  <span class="dot"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2s.2-1.1.1-1.2l-.5-.3z"/></svg></span>
+</a>
+
+<script>
+  // Formulários: enviam para as funções /api/contato e /api/newsletter (Cloudflare Pages Functions).
+  document.querySelectorAll<HTMLAnchorElement>('[data-topic]').forEach((a) =>
+    a.addEventListener('click', () => {
+      const s = document.getElementById('cAssunto') as HTMLSelectElement | null;
+      if (s) s.value = a.dataset.topic || 'mentoria';
+    })
+  );
+  document.querySelectorAll<HTMLFormElement>('form[data-api]').forEach((f) => {
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ok = f.querySelector<HTMLElement>('[data-ok]');
+      const err = f.querySelector<HTMLElement>('[data-err]');
+      const btn = f.querySelector<HTMLButtonElement>('button[type=submit]');
+      if (ok) ok.hidden = true; if (err) err.hidden = true;
+      if (!f.reportValidity()) return;
+      if (btn) btn.disabled = true;
+      try {
+        const r = await fetch(f.dataset.api!, { method: 'POST', body: new FormData(f) });
+        if (!r.ok) throw new Error(String(r.status));
+        f.reset(); if (ok) ok.hidden = false;
+      } catch {
+        if (err) err.hidden = false;
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+  });
+</script>
+</body>
+</html>

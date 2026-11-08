@@ -1,0 +1,14 @@
+---
+import { mes } from '../site.js';
+interface Props { itens: any[] }
+const { itens } = Astro.props;
+---
+<div class="posts">
+  {itens.map((a) => (
+    <article class="post">
+      <p class="meta"><span>{a.data.tipo}</span><span>{mes(a.data.data)}</span></p>
+      <h3><a href={`/artigos/${a.id}`}>{a.data.titulo}</a></h3>
+      <p class="muted">{a.data.resumo}</p>
+    </article>
+  ))}
+</div>

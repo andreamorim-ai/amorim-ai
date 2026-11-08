@@ -1,0 +1,17 @@
+{
+  "name": "amorim-ai",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "linkedin": "node scripts/publicar-linkedin.mjs"
+  },
+  "dependencies": {
+    "astro": "5.13.2",
+    "@astrojs/rss": "4.0.12",
+    "@astrojs/sitemap": "3.5.1"
+  }
+}

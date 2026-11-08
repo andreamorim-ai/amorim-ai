@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.js';
+---
+<Base titulo="Política de privacidade · Amorim.AI" descricao="Como a Amorim.AI trata os dados enviados pelo site.">
+  <div class="titleband"><div class="wrap">
+    <nav class="crumb" aria-label="Trilha"><a href="/">Início</a><span aria-hidden="true">›</span><span class="here">Privacidade</span></nav>
+    <h1>Política de privacidade</h1>
+  </div></div>
+  <div class="wrap" style="padding-block:56px 96px">
+    <div class="prose article">
+      <p>A Amorim.AI Consultoria LTDA coleta apenas os dados que você envia pelos formulários do site: nome, cargo, empresa, e-mail, WhatsApp e mensagem.</p>
+      <p>Usamos esses dados para responder ao seu contato e, se você pediu, para enviar a newsletter mensal. Não vendemos nem compartilhamos seus dados com terceiros, exceto com os serviços que operam o envio de e-mail e a hospedagem do site.</p>
+      <p>Você pode cancelar a newsletter a qualquer momento pelo link no rodapé de cada e-mail, ou pedir a exclusão dos seus dados escrevendo para <a href={`mailto:${SITE.email}`}>{SITE.email}</a>, conforme a Lei Geral de Proteção de Dados (LGPD).</p>
+    </div>
+  </div>
+</Base>
